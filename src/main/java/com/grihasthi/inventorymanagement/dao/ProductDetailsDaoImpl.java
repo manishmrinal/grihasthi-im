@@ -39,6 +39,78 @@ public class ProductDetailsDaoImpl implements ProductDetailsInterface {
 //		
 		System.out.println(result.toString());
 		
+		sess.close();
+		return result;
+	}
+
+
+	@Override
+	public List<Product> getProductByBarcode(String barcode) {
+		// TODO Auto-generated method stub
+		
+		
+		Session sess= em.unwrap(Session.class);
+		System.out.println("firing query");
+		System.out.println(barcode);
+		Query<Product> tq = sess.createQuery("From product where p_barcode ='"+barcode+"'",Product.class);
+//		
+		//tq.setParameter("barcode",barcode);
+		List<Product> result=tq.getResultList();
+//		
+		System.out.println(result.toString());
+		
+//		String hql = "FROM Employee E WHERE E.id = :employee_id";
+//		Query query = session.createQuery(hql);
+//		query.setParameter("employee_id",10);
+//		List results = query.list();
+		
+		sess.close();
+		
+		return result;
+	}
+
+
+	@Override
+	public List<Product> getProductByName(String p_name) {
+		Session sess= em.unwrap(Session.class);
+		System.out.println("firing query");
+		System.out.println(p_name);
+		Query<Product> tq = sess.createQuery("From product where p_name ='"+p_name+"'",Product.class);
+//		
+		//tq.setParameter("barcode",barcode);
+		List<Product> result=tq.getResultList();
+//		
+		System.out.println(result.toString());
+		
+//		String hql = "FROM Employee E WHERE E.id = :employee_id";
+//		Query query = session.createQuery(hql);
+//		query.setParameter("employee_id",10);
+//		List results = query.list();
+		
+		sess.close();
+		
+		return result;
+	}
+
+
+	@Override
+	public List<Product> getProductByCompany(String p_company) {
+		Session sess= em.unwrap(Session.class);
+		System.out.println("firing query");
+		System.out.println(p_company);
+		Query<Product> tq = sess.createQuery("From product where p_company ='"+p_company+"'",Product.class);
+//		
+		//tq.setParameter("barcode",barcode);
+		List<Product> result=tq.getResultList();
+//		
+		System.out.println(result.toString());
+		
+//		String hql = "FROM Employee E WHERE E.id = :employee_id";
+//		Query query = session.createQuery(hql);
+//		query.setParameter("employee_id",10);
+//		List results = query.list();
+		
+		sess.close();
 		
 		return result;
 	}

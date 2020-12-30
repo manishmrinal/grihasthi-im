@@ -4,14 +4,32 @@
 
 <head>
 	<title> Product-list</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
 <body>
+<div class="container p-3 my-3 bg-success border">
+	<form action="/" method="post">
+      <input type="submit" value="home" />
+    
+
+    </form> 
+    </div>
+ <div class="container p-3 my-3 bg-danger border">
+    <form action="/logout" method="post">
+      <input type="submit" value="Logout" />
+      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+    </form>
+    </div>
+    
 
 	<h3>Products</h3>
+	
+	<div class="container">
 	<hr>
-		<table border="1">
-			<thead>
+		<table  class="table table-bordered table-striped">
+			<thead class  ="thead-dark">
 				<tr>
 					<th>  Name</th>
 					<th> Company</th>
@@ -33,13 +51,15 @@
 					<td th:text="${product.product_details}"/>
 					
 					
-					</td>
+					<td th:text="${product.product_details}"/>
 						
 				
 				</tr>
 			
 			</tbody>
 		</table>
+		
+		</div>
 
 </body>
 

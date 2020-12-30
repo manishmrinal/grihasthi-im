@@ -3,6 +3,7 @@ package com.grihasthi.inventorymanagement.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -10,16 +11,17 @@ import com.grihasthi.inventorymanagement.beans.test;
 import com.grihasthi.inventorymanagement.dao.TestInterface;
 
 
-@org.springframework.web.bind.annotation.RestController
-@RequestMapping("/api")
+@Controller
+@RequestMapping("/")
 public class RestController {
 
 	private TestInterface testDao;
 	
-	@GetMapping("/")
+	@RequestMapping("/")
 	public String sayHello() {
-		return "Hello World!";
+		return "health";
 	}
+	
 	
 	
 	@Autowired

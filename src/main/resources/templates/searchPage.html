@@ -1,0 +1,79 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "https://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:th="http://www.thymeleaf.org"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+ layout:decorator="layout">
+
+<head>
+<meta charset="UTF-8">
+<title>Health Check</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+    <h3>Service is up and running!!</h3>
+    
+    <p>
+      Hello <b><c:out value="${pageContext.request.remoteUser}"/></b><br>
+      Roles: <b><sec:authentication property="principal.authorities" /></b>
+    </p>
+    
+    <div class="container p-3 my-3 bg-danger border">
+    <form action="/logout" method="post">
+      <input type="submit" value="Logout" />
+      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+    </form>
+    </div>
+     <div class="container p-3 my-3 bg-dark text-white">
+    <form action="/products/all" method="post">
+    
+    <input type="submit" value="Get all the products"/>
+   
+    </form>
+    </div>
+    
+     <div class="container p-3 my-3 bg-primary text-white">
+     <form action="/products/barcodeScan" method="post">
+    
+    <input type="submit" value="Get product using barcode"/>
+   
+    </form>
+    </div>
+    
+    <div class="container p-3 my-3 bg-primary text-white">
+    <form action="/products/searchByProduct" method="post">
+    
+    
+    	<label for="product_name">Search by Product:</label>
+			<select id="p_name" name="p_name" >
+  			
+	  			<option th:each="product : ${products}" th:text="${product.p_name}" th:value="${product.p_name}"></option>
+	 			
+  			</select>
+  			
+  			<input type="submit" value="Search by name"/>
+
+
+</form>
+</div>
+
+<div class="container p-3 my-3 bg-primary text-white">
+<form action="/products/searchByCompany" method="post" th:object="${products}">
+    
+    
+    	<label for="companay_name">Search by Company:</label>
+			<select id="p_company" name="p_company" >
+  			
+	  			<option th:each="product : ${products}" th:text="${product.p_company}" th:value="${product.p_company}"></option>
+	 			
+  			</select>
+
+ <input type="submit" value="Search by Company"/>
+
+</form>
+</div>
+    
+</body>
+</html>  
