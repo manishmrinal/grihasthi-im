@@ -1,8 +1,13 @@
 package com.grihasthi.inventorymanagement.controller;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.grihasthi.inventorymanagement.beans.Product;
 import com.grihasthi.inventorymanagement.dao.ProductDetailsInterface;
+import com.grihasthi.inventorymanagement.service.ConvertToPdfService;
+import com.grihasthi.inventorymanagement.service.ConvertToXLS;
+import com.itextpdf.layout.Document;
 
 
 @Controller
@@ -21,11 +28,73 @@ public class ProductDetailsController {
 	
 	private ProductDetailsInterface dao;
 	
-	public ProductDetailsController(ProductDetailsInterface daoc) {
+	private ConvertToPdfService service;
+	
+	public ProductDetailsController(ProductDetailsInterface daoc , ConvertToPdfService service) {
 		// TODO Auto-generated constructor stub
 		this.dao=daoc;
 		
+		this.service=service;
+		
 	}
+	
+	//generatePdf
+	
+	@RequestMapping(value= "/generateXLS" ,method = RequestMethod.GET )
+	public void getExcel(HttpServletResponse response) throws IOException{
+		
+	
+		
+		//Document doc= service.covertToPdf();
+		
+		response.setContentType("application/octet-stream");
+		String headerKey="Content-Disposition";
+		
+		DateFormat dateFormat =new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+		String currentDate=dateFormat.format(new Date());
+		String fileName="Products_"+currentDate+".xlsx";
+		
+		String headerValue ="attachment; filename="+fileName;
+		
+		response.setHeader(headerKey, headerValue);
+		
+		List<Product> result= dao.getAll();
+		
+		ConvertToXLS exporter = new ConvertToXLS(result);
+		exporter.export(response);
+
+		
+		
+	}
+	
+	@RequestMapping(value= "/generatePDF" ,method = RequestMethod.GET )
+	public void getPdf(HttpServletResponse response) throws IOException{
+		
+	
+		
+		//Document doc= service.covertToPdf();
+		
+		response.setContentType("application/pdf");
+		String headerKey="Content-Disposition";
+		
+		DateFormat dateFormat =new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+		String currentDate=dateFormat.format(new Date());
+		String fileName="Products_"+currentDate+".pdf";
+		
+		String headerValue ="attachment; filename="+fileName;
+		
+		response.setHeader(headerKey, headerValue);
+		
+		List<Product> result= dao.getAll();
+		
+		ConvertToPdfService exporter = new ConvertToPdfService(result);
+		exporter.export(response);
+
+		
+		
+	}
+	
+	
 	
 	@RequestMapping(value= "/all" ,method = RequestMethod.POST )
 	public String getAll(Model md){
@@ -91,29 +160,3 @@ public class ProductDetailsController {
 
 }
 
-
-//@org.springframework.web.bind.annotation.RestController
-//@RequestMapping("/api")
-//public class RestController {
-//
-//	private TestInterface testDao;
-//	
-//	@GetMapping("/")
-//	public String sayHello() {
-//		return "Hello World!";
-//	}
-//	
-//	
-//	@Autowired
-//	public RestController(TestInterface tidao) {
-//		// TODO Auto-generated constructor stub
-//		
-//		this.testDao=tidao;
-//	}
-//	
-//	@GetMapping("/all")
-//	public List<test> findAll(){
-//		
-//		return testDao.findAll();
-//	}
-//}

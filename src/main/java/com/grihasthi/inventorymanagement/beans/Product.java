@@ -163,6 +163,11 @@ public class Product {
 				+ ", p_metric=" + p_metric + ", p_barcode=" + p_barcode + "]";
 	}
 	
+	public String toStringPricewise() {
+		
+		String newString="Price = ";
+		return newString;
+	}
 	
 	
 
