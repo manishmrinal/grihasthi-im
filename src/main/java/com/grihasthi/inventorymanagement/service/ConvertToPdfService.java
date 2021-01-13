@@ -3,6 +3,7 @@ package com.grihasthi.inventorymanagement.service;
 import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -90,6 +91,7 @@ public class ConvertToPdfService {
 		
 	}
 	
+	
 	public void export( HttpServletResponse response) throws IOException {
 		
 		
@@ -97,6 +99,15 @@ public class ConvertToPdfService {
 		
 		PdfWriter.getInstance(document, response.getOutputStream());
 		document.open();
+	
+	
+//	public void export( OutputStream outputStream) throws IOException {
+//		
+//		
+//		Document document=new Document(PageSize.A4);
+//		
+//		PdfWriter.getInstance(document, outputStream);
+//		document.open();
 		
 		document.add(new Paragraph("List of all the products"));
 		

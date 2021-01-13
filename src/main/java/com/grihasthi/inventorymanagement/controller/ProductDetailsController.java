@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import com.grihasthi.inventorymanagement.beans.Product;
 import com.grihasthi.inventorymanagement.dao.ProductDetailsInterface;
 import com.grihasthi.inventorymanagement.service.ConvertToPdfService;
 import com.grihasthi.inventorymanagement.service.ConvertToXLS;
+import com.grihasthi.inventorymanagement.service.MailSenderService;
 import com.itextpdf.layout.Document;
 
 
@@ -28,13 +30,16 @@ public class ProductDetailsController {
 	
 	private ProductDetailsInterface dao;
 	
-	private ConvertToPdfService service;
+	private ConvertToPdfService pdfservice;
+	
+	@Autowired
+	private MailSenderService mailService;
 	
 	public ProductDetailsController(ProductDetailsInterface daoc , ConvertToPdfService service) {
 		// TODO Auto-generated constructor stub
 		this.dao=daoc;
 		
-		this.service=service;
+		this.pdfservice=service;
 		
 	}
 	
@@ -155,6 +160,23 @@ public class ProductDetailsController {
 		md.addAttribute("products", result);
 		
 		return "list-prd";
+		
+	}
+	
+	@RequestMapping(value= "/sendOnMail" ,method = RequestMethod.GET )
+	public String sendMail(){
+		
+		try {
+			mailService.sendMail();
+		}
+		catch(MailException me)
+		{
+			me.printStackTrace();
+			
+		}
+		
+	     return "health";
+		
 		
 	}
 
